@@ -63,7 +63,9 @@ public class WorkerService {
         worker.setPhoneNumber(workerDto.getPhoneNumber());
         worker.setDepartment(departmentId.get());
 
-        Address address = new Address();
+        Optional<Address> addressId = addressRepository.findById(id);
+        if (!addressId.isPresent()) return new ApiResponse("Address not found", false, null);
+        Address address = addressId.get();
         address.setStreet(workerDto.getStreet());
         address.setHomeNumber(workerDto.getHomeNumber());
         Address addressSaved = addressRepository.save(address);

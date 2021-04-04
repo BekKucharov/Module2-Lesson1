@@ -52,7 +52,9 @@ public class CompanyService {
         company.setCorpName(company.getCorpName());
         company.setDirectorName(company.getDirectorName());
 
-        Address address = new Address();
+        Optional<Address> addressId = addressRepository.findById(id);
+        if (!addressId.isPresent()) return new ApiResponse("Address not found", false, null);
+        Address address = addressId.get();
         address.setStreet(companyDto.getStreet());
         address.setHomeNumber(companyDto.getHomeNumber());
         Address addressSaved = addressRepository.save(address);
